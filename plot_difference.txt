@@ -1,0 +1,8 @@
+set terminal latex
+set output "plot_difference.tex"
+set style data lp
+#iset log x
+set yrange [0:2]
+set xlabel "number of elements"
+set ylabel "difference multiplier" offset -8.0, 0.0
+plot 'difference.out' title 'difference'

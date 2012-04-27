@@ -1,0 +1,11 @@
+set terminal latex
+set output "plot.tex"
+set style data lp
+#set linestyle 1 lt 1 lw 1
+#set log x
+#set nokey
+set yrange [80:150]
+set xlabel "number of elements"
+set ylabel "MFLOPS" offset -3.0, 0.0
+plot 'simd.out' title 'simd', \
+'nosimd.out' with lp title 'without simd' 

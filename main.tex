@@ -1,0 +1,119 @@
+% Robert Adams CS 475
+
+\documentclass[letterpaper,10pt]{article} %twocolumn titlepage 
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\usepackage{alltt}
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+
+\usepackage{balance}
+\usepackage[TABBOTCAP, tight]{subfigure}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+
+
+\usepackage{geometry}
+\geometry{margin=1in, textheight=8.5in} %textwidth=6in
+
+%random comment
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+
+\def\name{Robert M Adams}
+
+%% The following metadata will show up in the PDF properties
+\hypersetup{
+    colorlinks = true,
+    urlcolor = black,
+    pdfauthor = {\name},
+    pdfkeywords = {cs745},
+    pdftitle = {CS 475 Project 3: SIMD Parallelization, Autocorrelation},
+    pdfsubject = {CS 475 Project 3},
+    pdfpagemode = UseNone,
+}
+
+
+\begin{document}
+\title{CS 475 Project 3: SIMD Parallelization, Autocorrelation } 
+\author{Robert Adams}
+\maketitle
+
+
+The purpose of this experiment is to test and analyze the speed
+gains from using Streaming SIMD Extensions (SSE).
+
+
+\section{Results}
+
+
+As seen on the graphs, on os-class.engr.oregonsstate.edu I am able to 
+acheive about a 60\verb|%| speed up by using SIMD instructions to muliply
+and sum large arrays of floats. The amount of work done, MFLOPS, remains
+consistent for all array sizes of significance for both SIMD and non-SIMD operations. 
+
+
+	Compared to my previous results for multiplication of n elements, this new dataset
+  doesn't seem to be suffering from any performance drop. I haven't been able to
+  achieve 700 MFLOPS as I was able to before, which may be because I have already 
+  passed the performance threshold being that the algorithm is now running in
+  n\^2 time. Shifting of the array adds an additional 2n to the runtime, which
+  shouldnt be of any significance for significantly large values of n.
+
+  
+  I’m a little confused as to why the performance isnt closer to 4x. 
+  I also ran this experiment on a rackspace cloud server which was faster but 
+  still gave me only about a 60\verb|%| speed up. My only hypothesis is that much of 
+  the time recorded may be spent on operations other than the actual
+  multiplication.
+  
+  
+  \subsection{System Specifications}
+
+os-class.engr.oregonstate.edu \$ lscpu:
+
+Architecture:          x86\_64
+CPU op-mode(s):        32-bit, 64-bit
+Byte Order:            Little Endian
+CPU(s):                4
+On-line CPU(s) list:   0-3
+Thread(s) per core:    1
+Core(s) per socket:    1
+CPU socket(s):         4
+NUMA node(s):          1
+Vendor ID:             GenuineIntel
+CPU family:            6
+Model:                 23
+Stepping:              10
+CPU MHz:               2992.500
+BogoMIPS:              5985.00
+L1d cache:             32K
+L1i cache:             32K
+L2 cache:              6144K
+NUMA node0 CPU(s):     0-3
+
+
+\begin{figure} [ht]
+    \centering
+    \input{plot.tex}
+\caption{Speed of SIMD Multiplications (n\^2) on an array of random floats.}
+    \label{runtimes}
+\end{figure}
+
+\begin{figure} [ht]
+    \centering
+    \input{plot_difference.tex}
+    \caption{A run with with percent speedup calculated. simd mflops/non-simd mflops} 
+    \label{runtimes}
+\end{figure}
+
+
+
+\end{document}
